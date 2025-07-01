@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Search, Grid, List } from 'lucide-react';
+import { Search, Grid, List, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -103,6 +103,14 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
 
   const isProductFinalLevel = selectedPath.length > 0;
 
+  // 🔥 FUNCIÓN PARA ABRIR PRODUCTOS - AQUÍ SE DEFINE CÓMO SE ABREN LOS PRODUCTOS
+  // Archivo: src/components/ProductGallery.tsx - Líneas 95-100
+  // Para cambiar el comportamiento de apertura de productos, modifica esta función
+  const handleProductClick = (productId: string) => {
+    const productUrl = `/producto/${productId}`;
+    window.open(productUrl, '_blank');
+  };
+
   return (
     <section className="section-padding bg-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -156,7 +164,11 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 : 'grid-cols-1'
             }`}>
               {filteredProducts.map((product) => (
-                <Card key={product.id} className="jersey-card">
+                <Card 
+                  key={product.id} 
+                  className="jersey-card cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105"
+                  onClick={() => handleProductClick(product.id)}
+                >
                   <div className="relative">
                     <img 
                       src={product.image} 
@@ -172,6 +184,9 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                         </Badge>
                       ))}
                     </div>
+                    <div className="absolute top-2 right-2">
+                      <ExternalLink className="w-4 h-4 text-white bg-black/50 rounded p-1" />
+                    </div>
                   </div>
                   
                   <CardContent className="p-4">
@@ -180,6 +195,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                     </h3>
                     <p className="text-sm text-gray-600 mb-2">{product.team}</p>
                     <p className="text-lg font-bold text-primary">{product.price}</p>
+                    <p className="text-xs text-gray-500 mt-1">Click para ver detalles</p>
                   </CardContent>
                 </Card>
               ))}

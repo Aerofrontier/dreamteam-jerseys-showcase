@@ -53,7 +53,7 @@ const HeroSection = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 text-lg font-medium"
+              className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-primary px-8 py-4 text-lg font-medium transition-all duration-300"
               onClick={() => scrollToSection('destacados')}
             >
               Ver Destacados
