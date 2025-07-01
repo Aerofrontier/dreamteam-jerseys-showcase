@@ -11,6 +11,10 @@ interface ProductStructure {
   };
 }
 
+// 🔥 ESTRUCTURA DE NAVEGACIÓN - AQUÍ PUEDES AGREGAR MÁS CATEGORÍAS Y SUBCATEGORÍAS
+// Archivo: src/components/ProductNavigation.tsx - Líneas 15-80
+// Para agregar nuevos deportes, categorías o subcategorías, modifica este objeto
+// Cada nivel puede tener 'name' (nombre mostrado) y 'children' (subcategorías)
 const productStructure: ProductStructure = {
   futbol: {
     name: 'Fútbol',
@@ -62,6 +66,15 @@ const productStructure: ProductStructure = {
       }
     }
   },
+  // 🔥 PARA AGREGAR MÁS DEPORTES, AGREGA AQUÍ NUEVAS SECCIONES
+  // Ejemplo: para agregar un nuevo deporte, sigue este formato:
+  // 'nuevo-deporte': {
+  //   name: 'Nombre del Deporte',
+  //   children: {
+  //     'categoria-1': { name: 'Categoría 1' },
+  //     'categoria-2': { name: 'Categoría 2' }
+  //   }
+  // },
   f1: {
     name: 'Fórmula 1',
     children: {
@@ -179,6 +192,9 @@ const ProductNavigation: React.FC<ProductNavigationProps> = ({
           </p>
         </div>
 
+        {/* 🔥 DISEÑO DE TARJETAS DE NAVEGACIÓN */}
+        {/* Archivo: src/components/ProductNavigation.tsx - Líneas 170-200 */}
+        {/* Para cambiar el diseño de las tarjetas, modifica esta sección */}
         <div className={`grid gap-6 ${
           Object.keys(currentLevel.children).length <= 2 
             ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto'
@@ -193,6 +209,8 @@ const ProductNavigation: React.FC<ProductNavigationProps> = ({
               <CardContent className="p-6 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
                   <span className="text-white font-bold text-lg">
+                    {/* 🔥 ÍCONOS DE CATEGORÍAS - AQUÍ PUEDES CAMBIAR LOS ÍCONOS */}
+                    {/* Para cambiar los íconos, modifica esta línea */}
                     {isProductLevel ? '👕' : '📂'}
                   </span>
                 </div>

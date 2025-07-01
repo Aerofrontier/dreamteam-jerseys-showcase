@@ -18,37 +18,45 @@ interface Product {
   badges: string[];
 }
 
-// Productos de ejemplo organizados por tipo
+// 🔥 PRODUCTOS - AQUÍ PUEDES AGREGAR MÁS PRODUCTOS
+// Archivo: src/components/ProductGallery.tsx - Líneas 20-125
+// Para agregar más productos, simplemente agrega nuevos objetos al array 'sampleProducts'
+// Cada producto necesita: id, name, team, price, sport, category (array), image, badges (array)
 const sampleProducts: Product[] = [
-  // Fútbol - Hombre - Nueva Temporada - Versión Jugador
+  // ⚽ FÚTBOL - HOMBRE - NUEVA TEMPORADA - VERSIÓN JUGADOR
+  // Para agregar más productos de esta categoría, agrega aquí con category: ['hombre', 'nueva-temporada', 'version-jugador']
   { id: '1', name: 'Real Madrid Home 24/25', team: 'Real Madrid', price: '$650', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-jugador'], image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400', badges: ['Nueva Temporada', 'Versión Jugador'] },
   { id: '2', name: 'Barcelona Home 24/25', team: 'FC Barcelona', price: '$650', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-jugador'], image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400', badges: ['Nueva Temporada', 'Versión Jugador'] },
   { id: '3', name: 'Manchester City Home 24/25', team: 'Manchester City', price: '$650', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-jugador'], image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400', badges: ['Nueva Temporada', 'Versión Jugador'] },
   { id: '4', name: 'PSG Home 24/25', team: 'Paris Saint-Germain', price: '$650', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-jugador'], image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400', badges: ['Nueva Temporada', 'Versión Jugador'] },
   { id: '5', name: 'Chelsea Home 24/25', team: 'Chelsea FC', price: '$650', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-jugador'], image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400', badges: ['Nueva Temporada', 'Versión Jugador'] },
 
-  // Fútbol - Hombre - Nueva Temporada - Versión Aficionado
+  // ⚽ FÚTBOL - HOMBRE - NUEVA TEMPORADA - VERSIÓN AFICIONADO
+  // Para agregar más productos de esta categoría, agrega aquí con category: ['hombre', 'nueva-temporada', 'version-aficionado']
   { id: '6', name: 'Real Madrid Home Fan', team: 'Real Madrid', price: '$450', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-aficionado'], image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400', badges: ['Nueva Temporada', 'Versión Aficionado'] },
   { id: '7', name: 'Barcelona Home Fan', team: 'FC Barcelona', price: '$450', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-aficionado'], image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400', badges: ['Nueva Temporada', 'Versión Aficionado'] },
   { id: '8', name: 'Manchester City Fan', team: 'Manchester City', price: '$450', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-aficionado'], image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400', badges: ['Nueva Temporada', 'Versión Aficionado'] },
   { id: '9', name: 'PSG Home Fan', team: 'Paris Saint-Germain', price: '$450', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-aficionado'], image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400', badges: ['Nueva Temporada', 'Versión Aficionado'] },
   { id: '10', name: 'Chelsea Home Fan', team: 'Chelsea FC', price: '$450', sport: 'futbol', category: ['hombre', 'nueva-temporada', 'version-aficionado'], image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400', badges: ['Nueva Temporada', 'Versión Aficionado'] },
 
-  // NFL - Versión de Campo
+  // 🏈 NFL - VERSIÓN DE CAMPO
+  // Para agregar más productos de NFL, agrega aquí con category: ['version-campo'] y sport: 'nfl'
   { id: '11', name: 'Tom Brady Buccaneers', team: 'Tampa Bay Buccaneers', price: '$750', sport: 'nfl', category: ['version-campo'], image: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=400', badges: ['Versión de Campo'] },
   { id: '12', name: 'Aaron Rodgers Packers', team: 'Green Bay Packers', price: '$750', sport: 'nfl', category: ['version-campo'], image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400', badges: ['Versión de Campo'] },
   { id: '13', name: 'Josh Allen Bills', team: 'Buffalo Bills', price: '$750', sport: 'nfl', category: ['version-campo'], image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400', badges: ['Versión de Campo'] },
   { id: '14', name: 'Patrick Mahomes Chiefs', team: 'Kansas City Chiefs', price: '$750', sport: 'nfl', category: ['version-campo'], image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400', badges: ['Versión de Campo'] },
   { id: '15', name: 'Lamar Jackson Ravens', team: 'Baltimore Ravens', price: '$750', sport: 'nfl', category: ['version-campo'], image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400', badges: ['Versión de Campo'] },
 
-  // NBA - Versión Jugador
+  // 🏀 NBA - VERSIÓN JUGADOR
+  // Para agregar más productos de NBA, agrega aquí con category: ['version-jugador'] y sport: 'nba'
   { id: '16', name: 'LeBron James Lakers', team: 'Los Angeles Lakers', price: '$680', sport: 'nba', category: ['version-jugador'], image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400', badges: ['Versión Jugador'] },
   { id: '17', name: 'Stephen Curry Warriors', team: 'Golden State Warriors', price: '$680', sport: 'nba', category: ['version-jugador'], image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400', badges: ['Versión Jugador'] },
   { id: '18', name: 'Giannis Bucks', team: 'Milwaukee Bucks', price: '$680', sport: 'nba', category: ['version-jugador'], image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400', badges: ['Versión Jugador'] },
   { id: '19', name: 'Luka Doncic Mavericks', team: 'Dallas Mavericks', price: '$680', sport: 'nba', category: ['version-jugador'], image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400', badges: ['Versión Jugador'] },
   { id: '20', name: 'Jayson Tatum Celtics', team: 'Boston Celtics', price: '$680', sport: 'nba', category: ['version-jugador'], image: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=400', badges: ['Versión Jugador'] },
 
-  // F1 - Tipo Polo
+  // 🏎️ F1 - TIPO POLO
+  // Para agregar más productos de F1, agrega aquí con category: ['tipo-polo'] y sport: 'f1'
   { id: '21', name: 'Red Bull Racing Polo', team: 'Red Bull Racing', price: '$420', sport: 'f1', category: ['tipo-polo'], image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400', badges: ['Tipo Polo'] },
   { id: '22', name: 'Mercedes AMG Polo', team: 'Mercedes AMG', price: '$420', sport: 'f1', category: ['tipo-polo'], image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400', badges: ['Tipo Polo'] },
   { id: '23', name: 'Ferrari Polo', team: 'Scuderia Ferrari', price: '$420', sport: 'f1', category: ['tipo-polo'], image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400', badges: ['Tipo Polo'] },
@@ -78,7 +86,9 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
     return matchesSport && matchesPath && matchesSearch;
   });
 
-  // Generar el título basado en la ruta seleccionada
+  // 🔥 NOMBRES DE DEPORTES - AQUÍ PUEDES MODIFICAR LOS NOMBRES MOSTRADOS
+  // Archivo: src/components/ProductGallery.tsx - Líneas 85-92
+  // Para cambiar los nombres que aparecen en el título, modifica este objeto
   const getGalleryTitle = () => {
     const sportNames: { [key: string]: string } = {
       futbol: 'Fútbol',
@@ -175,7 +185,9 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
               ))}
             </div>
 
-            {/* Tablas de precios y tallas - solo se muestran cuando hay productos */}
+            {/* 🔥 TABLAS - AQUÍ SE MUESTRAN LAS TABLAS DE PRECIOS Y TALLAS */}
+            {/* Las tablas se cargan desde el componente ProductTables */}
+            {/* Para modificar las tablas, ve al archivo: src/components/ProductTables.tsx */}
             {isProductFinalLevel && (
               <ProductTables 
                 selectedSport={selectedSport}

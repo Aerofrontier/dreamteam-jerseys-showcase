@@ -14,9 +14,14 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
     return `${selectedSport}-${selectedPath.join('-')}`;
   };
 
+  // 🔥 TABLAS DE TALLAS - AQUÍ PUEDES MODIFICAR LAS TABLAS DE TALLAS
+  // Archivo: src/components/ProductTables.tsx - Líneas 20-60
+  // Para agregar nuevas tablas o modificar existentes, modifica esta función
+  // Cada tabla necesita: title, sizes (array con objetos que contengan size, chest, length, shoulders)
   const getSizeTableData = () => {
-    // Datos placeholder para tabla de tallas
+    // Datos placeholder para tabla de tallas - REEMPLAZAR CON DATOS REALES
     const baseData = {
+      // 🔥 FÚTBOL - HOMBRE - NUEVA TEMPORADA - VERSIÓN JUGADOR
       'futbol-hombre-nueva-temporada-version-jugador': {
         title: 'Tabla de Tallas - Fútbol Hombre Versión Jugador',
         sizes: [
@@ -27,6 +32,7 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
           { size: 'XXL', chest: '64-66', length: '78', shoulders: '52' }
         ]
       },
+      // 🔥 NFL - VERSIÓN CAMPO
       'nfl-version-campo': {
         title: 'Tabla de Tallas - NFL Versión Campo',
         sizes: [
@@ -36,7 +42,16 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
           { size: 'XL', chest: '62-64', length: '78', shoulders: '52' },
           { size: 'XXL', chest: '66-68', length: '80', shoulders: '54' }
         ]
-      }
+      },
+      // 🔥 PARA AGREGAR MÁS TABLAS DE TALLAS, AGREGA AQUÍ NUEVAS SECCIONES
+      // Ejemplo:
+      // 'nba-version-jugador': {
+      //   title: 'Tabla de Tallas - NBA Versión Jugador',
+      //   sizes: [
+      //     { size: 'S', chest: '51', length: '73', shoulders: '170' },
+      //     // ... más tallas
+      //   ]
+      // }
     };
 
     return baseData[getProductType() as keyof typeof baseData] || {
@@ -51,9 +66,14 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
     };
   };
 
+  // 🔥 TABLAS DE PRECIOS - AQUÍ PUEDES MODIFICAR LAS TABLAS DE PRECIOS
+  // Archivo: src/components/ProductTables.tsx - Líneas 70-110
+  // Para agregar nuevas tablas o modificar existentes, modifica esta función
+  // Cada tabla necesita: title, prices (array con objetos que contengan quantity, price, savings)
   const getPriceTableData = () => {
-    // Datos placeholder para tabla de precios
+    // Datos placeholder para tabla de precios - REEMPLAZAR CON DATOS REALES
     const baseData = {
+      // 🔥 FÚTBOL - HOMBRE - NUEVA TEMPORADA - VERSIÓN JUGADOR
       'futbol-hombre-nueva-temporada-version-jugador': {
         title: 'Tabla de Precios - Fútbol Hombre Versión Jugador',
         prices: [
@@ -63,6 +83,7 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
           { quantity: '10+ piezas', price: '$550', savings: '$100' }
         ]
       },
+      // 🔥 NFL - VERSIÓN CAMPO
       'nfl-version-campo': {
         title: 'Tabla de Precios - NFL Versión Campo',
         prices: [
@@ -71,7 +92,16 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
           { quantity: '5-9 piezas', price: '$680', savings: '$70' },
           { quantity: '10+ piezas', price: '$640', savings: '$110' }
         ]
-      }
+      },
+      // 🔥 PARA AGREGAR MÁS TABLAS DE PRECIOS, AGREGA AQUÍ NUEVAS SECCIONES
+      // Ejemplo:
+      // 'nba-version-jugador': {
+      //   title: 'Tabla de Precios - NBA Versión Jugador',
+      //   prices: [
+      //     { quantity: '1 pieza', price: '$680', savings: '-' },
+      //     // ... más rangos de precios
+      //   ]
+      // }
     };
 
     return baseData[getProductType() as keyof typeof baseData] || {
@@ -90,7 +120,9 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
-      {/* Tabla de Tallas */}
+      {/* 🔥 TABLA DE TALLAS - DISEÑO Y ESTRUCTURA */}
+      {/* Archivo: src/components/ProductTables.tsx - Líneas 120-160 */}
+      {/* Para modificar el diseño de la tabla de tallas, edita esta sección */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -105,10 +137,15 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
             <Table>
               <TableHeader>
                 <TableRow>
+                  {/* 🔥 COLUMNAS DE TABLA DE TALLAS - AQUÍ PUEDES AGREGAR MÁS COLUMNAS */}
+                  {/* Para agregar más columnas, agrega más TableHead aquí */}
                   <TableHead>Talla</TableHead>
                   <TableHead>Pecho</TableHead>
                   <TableHead>Largo</TableHead>
                   <TableHead>Hombros</TableHead>
+                  {/* Ejemplo para agregar más columnas:
+                  <TableHead>Manga</TableHead>
+                  <TableHead>Cintura</TableHead> */}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -118,6 +155,7 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
                     <TableCell>{size.chest}</TableCell>
                     <TableCell>{size.length}</TableCell>
                     <TableCell>{size.shoulders}</TableCell>
+                    {/* Si agregas más columnas arriba, agrégalas también aquí */}
                   </TableRow>
                 ))}
               </TableBody>
@@ -131,7 +169,9 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
         </CardContent>
       </Card>
 
-      {/* Tabla de Precios */}
+      {/* 🔥 TABLA DE PRECIOS - DISEÑO Y ESTRUCTURA */}
+      {/* Archivo: src/components/ProductTables.tsx - Líneas 180-220 */}
+      {/* Para modificar el diseño de la tabla de precios, edita esta sección */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -146,9 +186,14 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
             <Table>
               <TableHeader>
                 <TableRow>
+                  {/* 🔥 COLUMNAS DE TABLA DE PRECIOS - AQUÍ PUEDES AGREGAR MÁS COLUMNAS */}
+                  {/* Para agregar más columnas, agrega más TableHead aquí */}
                   <TableHead>Cantidad</TableHead>
                   <TableHead>Precio c/u</TableHead>
                   <TableHead>Ahorro</TableHead>
+                  {/* Ejemplo para agregar más columnas:
+                  <TableHead>Precio Total</TableHead>
+                  <TableHead>Descuento %</TableHead> */}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -165,6 +210,7 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
                         price.savings
                       )}
                     </TableCell>
+                    {/* Si agregas más columnas arriba, agrégalas también aquí */}
                   </TableRow>
                 ))}
               </TableBody>
@@ -178,7 +224,9 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
         </CardContent>
       </Card>
 
-      {/* Información adicional */}
+      {/* 🔥 SECCIÓN DE CONTACTO - AQUÍ PUEDES MODIFICAR LOS NÚMEROS DE WHATSAPP */}
+      {/* Archivo: src/components/ProductTables.tsx - Líneas 240-270 */}
+      {/* Para cambiar números de WhatsApp o ciudades, modifica esta sección */}
       <div className="lg:col-span-2 mt-6">
         <div className="bg-gradient-to-r from-primary/10 to-blue-100 p-6 rounded-xl">
           <div className="text-center">
@@ -189,6 +237,7 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
               Contáctanos por WhatsApp para confirmar disponibilidad, tallas y realizar tu pedido
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {/* 🔥 BOTONES DE WHATSAPP - AQUÍ PUEDES CAMBIAR LOS NÚMEROS Y CIUDADES */}
               <a
                 href="https://wa.me/526699123456?text=Hola, estoy interesado en un jersey, ¿me puedes apoyar?"
                 target="_blank"
@@ -205,6 +254,7 @@ const ProductTables: React.FC<ProductTablesProps> = ({ selectedSport, selectedPa
               >
                 📱 WhatsApp Guadalajara
               </a>
+              {/* Para agregar más ciudades, agrega más enlaces <a> aquí */}
             </div>
           </div>
         </div>
