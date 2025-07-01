@@ -1,12 +1,52 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import { 
+  ShoppingBag, 
+  Star, 
+  Heart, 
+  Eye, 
+  ChevronDown, 
+  MessageCircle,
+  Search,
+  Filter,
+  Grid,
+  List,
+  Phone
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import Header from '@/components/Header';
+import HeroSection from '@/components/HeroSection';
+import SportsSelector from '@/components/SportsSelector';
+import BestSellers from '@/components/BestSellers';
+import ProductGallery from '@/components/ProductGallery';
+import PricingTable from '@/components/PricingTable';
+import SizeGuide from '@/components/SizeGuide';
+import FAQ from '@/components/FAQ';
+import AboutUs from '@/components/AboutUs';
+import Footer from '@/components/Footer';
 
 const Index = () => {
+  const [selectedSport, setSelectedSport] = useState('todos');
+  const [selectedCategory, setSelectedCategory] = useState('todos');
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <HeroSection />
+      <SportsSelector selectedSport={selectedSport} onSportChange={setSelectedSport} />
+      <BestSellers />
+      <ProductGallery 
+        selectedSport={selectedSport} 
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+      />
+      <PricingTable />
+      <SizeGuide />
+      <FAQ />
+      <AboutUs />
+      <Footer />
     </div>
   );
 };
