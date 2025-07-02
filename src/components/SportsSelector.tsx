@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface Sport {
@@ -8,6 +9,7 @@ interface Sport {
   icon: string;
   description: string;
   color: string;
+  route: string;
 }
 
 const sports: Sport[] = [
@@ -16,44 +18,50 @@ const sports: Sport[] = [
     name: 'Fútbol', 
     icon: '⚽', 
     description: 'Clubes europeos, selecciones, Liga MX',
-    color: 'from-green-500 to-green-600'
+    color: 'from-green-500 to-green-600',
+    route: '/futbol'
   },
   { 
     id: 'nfl', 
     name: 'NFL', 
     icon: '🏈', 
     description: 'Todos los equipos de la NFL',
-    color: 'from-orange-500 to-red-600'
+    color: 'from-orange-500 to-red-600',
+    route: '/nfl'
   },
   { 
     id: 'nba', 
     name: 'NBA', 
     icon: '🏀', 
     description: 'Jerseys de basketball profesional',
-    color: 'from-orange-600 to-red-500'
+    color: 'from-orange-600 to-red-500',
+    route: '/nba'
   },
   { 
     id: 'mlb', 
     name: 'MLB', 
     icon: '⚾', 
     description: 'Béisbol de las Grandes Ligas',
-    color: 'from-blue-500 to-blue-600'
+    color: 'from-blue-500 to-blue-600',
+    route: '/mlb'
   },
   { 
     id: 'f1', 
     name: 'Fórmula 1', 
     icon: '🏎️', 
     description: 'Equipos y pilotos de F1',
-    color: 'from-red-500 to-red-600'
+    color: 'from-red-500 to-red-600',
+    route: '/f1'
   }
 ];
 
-interface SportsSelectorProps {
-  selectedSport: string;
-  onSportChange: (sport: string) => void;
-}
+const SportsSelector: React.FC = () => {
+  const navigate = useNavigate();
 
-const SportsSelector: React.FC<SportsSelectorProps> = ({ selectedSport, onSportChange }) => {
+  const handleSportClick = (route: string) => {
+    navigate(route);
+  };
+
   return (
     <section id="deportes" className="section-padding bg-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -71,12 +79,8 @@ const SportsSelector: React.FC<SportsSelectorProps> = ({ selectedSport, onSportC
           {sports.map((sport) => (
             <Card 
               key={sport.id}
-              className={`sport-card cursor-pointer transition-all duration-300 ${
-                selectedSport === sport.id 
-                  ? 'ring-2 ring-primary shadow-lg transform scale-105' 
-                  : 'hover:shadow-md'
-              }`}
-              onClick={() => onSportChange(sport.id)}
+              className="sport-card cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105"
+              onClick={() => handleSportClick(sport.route)}
             >
               <CardContent className="p-6 text-center">
                 <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br ${sport.color} flex items-center justify-center text-2xl`}>
