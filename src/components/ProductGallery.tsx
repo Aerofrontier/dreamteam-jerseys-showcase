@@ -331,7 +331,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 </p>
               </div>
 
-              {/* Botones de contacto */}
+              {/* Botones de contacto - SOLO en vista de producto individual */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Contacta a tu vendedor</h3>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -496,23 +496,25 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           </div>
         )}
 
-        {/* CTA de contacto */}
-        <div className="mt-12 text-center bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-xl border">
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            ¿No encuentras lo que buscas?
-          </h3>
-          <p className="text-gray-600 mb-4">
-            Tenemos acceso a miles de modelos adicionales. ¡Contáctanos por WhatsApp!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
-              📱 WhatsApp Mazatlán
-            </Button>
-            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
-              📱 WhatsApp Guadalajara
-            </Button>
+        {/* CTA de contacto - SOLO cuando hay productos Y es nivel final */}
+        {filteredProducts.length > 0 && isProductFinalLevel && (
+          <div className="mt-12 text-center bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-xl border">
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              ¿No encuentras lo que buscas?
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Tenemos acceso a miles de modelos adicionales. ¡Contáctanos por WhatsApp!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="bg-primary hover:bg-primary/90">
+                📱 WhatsApp Mazatlán
+              </Button>
+              <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
+                📱 WhatsApp Guadalajara
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Comparador de medidas */}
