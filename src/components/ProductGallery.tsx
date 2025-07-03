@@ -6,6 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import ProductTables from '@/components/ProductTables';
 import SizeComparator from '@/components/SizeComparator';
+import ProductImageGallery from '@/components/ProductImageGallery';
+import VideoExplainer from '@/components/VideoExplainer';
 
 interface Product {
   id: string;
@@ -94,7 +96,7 @@ const allProducts: Product[] = [
   { id: '47', name: 'Barcelona Kit Niños', team: 'FC Barcelona', price: '$650', sport: 'futbol', category: ['ninos', 'kits-completos'], image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400', badges: ['Niños', 'Kit Completo'] },
   { id: '48', name: 'PSG Kit Niños', team: 'Paris Saint-Germain', price: '$650', sport: 'futbol', category: ['ninos', 'kits-completos'], image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400', badges: ['Niños', 'Kit Completo'] },
   { id: '49', name: 'Chelsea Kit Niños', team: 'Chelsea FC', price: '$650', sport: 'futbol', category: ['ninos', 'kits-completos'], image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400', badges: ['Niños', 'Kit Completo'] },
-  { id: '50', name: 'Manchester City Kit Niños', team: 'Manchester City', price: '$650', sport: 'futbol', category: ['ninos', 'kits-completos'], image: 'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=400', badges: ['Niños', 'Kit Completo'] },
+  { id: '50', name: 'Manchester City Kit Niños', team: 'Manchester City', price: '$650', sport: 'futbol', category: ['ninos', 'kits-completos'], image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400', badges: ['Niños', 'Kit Completo'] },
 
   // 🏎️ F1 - TIPO POLO
   { id: '51', name: 'Red Bull Racing Polo', team: 'Red Bull Racing', price: '$420', sport: 'f1', category: ['tipo-polo'], image: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400', badges: ['F1', 'Tipo Polo'] },
@@ -180,6 +182,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showComparator, setShowComparator] = useState(false);
+  const [showImageGallery, setShowImageGallery] = useState(false);
 
   // Filtrar productos según el deporte y la ruta seleccionada
   const filteredProducts = allProducts.filter(product => {
@@ -191,9 +194,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
     return matchesSport && matchesPath && matchesSearch;
   });
 
-  // 🔥 NOMBRES DE DEPORTES - AQUÍ PUEDES MODIFICAR LOS NOMBRES MOSTRADOS
-  // Archivo: src/components/ProductGallery.tsx - Líneas 285-292
-  // Para cambiar los nombres que aparecen en el título, modifica este objeto
+  // 🔥 NOMBRES DE DEPORTES - Cambio de "Catálogo" a "Muestrario"
   const getGalleryTitle = () => {
     const sportNames: { [key: string]: string } = {
       futbol: 'Fútbol',
@@ -203,14 +204,35 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
       f1: 'Fórmula 1'
     };
     
-    return `Catálogo de ${sportNames[selectedSport]}`;
+    return `Muestrario de ${sportNames[selectedSport]}`;
   };
 
   const isProductFinalLevel = selectedPath.length > 0;
 
-  // 🔥 FUNCIÓN PARA ABRIR PRODUCTOS - AQUÍ SE DEFINE CÓMO SE ABREN LOS PRODUCTOS
-  // Archivo: src/components/ProductGallery.tsx - Líneas 300-305
-  // Para cambiar el comportamiento de apertura de productos, modifica esta función
+  // Función para manejar click en etiquetas
+  const handleBadgeClick = (badge: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    // Mapear badges a rutas de navegación
+    const badgeToPath: { [key: string]: string } = {
+      'Versión Jugador': 'version-jugador',
+      'Versión Aficionado': 'version-aficionado',
+      'Nueva Temporada': 'nueva-temporada',
+      'Retro': 'jerseys-retro',
+      'Selección': 'selecciones',
+      'Equipos': 'equipos',
+      'Kit Completo': 'kits-completos',
+      'Mujeres': 'mujeres',
+      'Niños': 'ninos'
+    };
+
+    const pathSegment = badgeToPath[badge];
+    if (pathSegment) {
+      // Aquí se podría implementar navegación automática
+      console.log(`Navegando a: ${pathSegment}`);
+    }
+  };
+
   const handleProductClick = (product: Product) => {
     // Expandir imágenes del producto
     const expandedProduct = {
@@ -238,10 +260,14 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   };
 
   const handleWhatsAppContact = (city: string, product: Product) => {
-    const message = `Hola, estoy interesado en el ${product.name}, ¿me puedes apoyar?`;
+    const message = `Hola, vi este modelo en su muestrario: ${product.name}, ¿me pueden ayudar con más información y opciones disponibles?`;
     const phoneNumber = city === 'mazatlan' ? '526699123456' : '523312345678';
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  const handleImageClick = (imageIndex: number) => {
+    setShowImageGallery(true);
   };
 
   // Vista del producto individual
@@ -257,27 +283,27 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
               className="flex items-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
-              Volver al catálogo
+              Volver al muestrario
             </Button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
-            {/* Galería de imágenes */}
+            {/* Galería de imágenes mejorada */}
             <div className="space-y-4">
-              <div className="aspect-square rounded-xl overflow-hidden shadow-lg">
+              <div className="aspect-square rounded-xl overflow-hidden shadow-lg cursor-pointer" onClick={() => handleImageClick(0)}>
                 <img 
                   src={selectedProduct.images?.[0] || selectedProduct.image} 
                   alt={selectedProduct.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <div className="grid grid-cols-3 gap-4">
                 {selectedProduct.images?.slice(1).map((image: string, index: number) => (
-                  <div key={index} className="aspect-square rounded-lg overflow-hidden shadow-md">
+                  <div key={index} className="aspect-square rounded-lg overflow-hidden shadow-md cursor-pointer" onClick={() => handleImageClick(index + 1)}>
                     <img 
                       src={image} 
                       alt={`${selectedProduct.name} ${index + 2}`}
-                      className="w-full h-full object-cover cursor-pointer hover:opacity-75 transition-opacity"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 ))}
@@ -289,7 +315,11 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   {selectedProduct.badges.map((badge: string) => (
-                    <Badge key={badge} className="text-xs bg-white/90 text-gray-800">
+                    <Badge 
+                      key={badge} 
+                      className="text-xs bg-white/90 text-gray-800 cursor-pointer hover:bg-primary hover:text-white transition-colors"
+                      onClick={(e) => handleBadgeClick(badge, e)}
+                    >
                       {badge}
                     </Badge>
                   ))}
@@ -324,11 +354,18 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 </div>
               </div>
 
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h4 className="font-semibold text-gray-900 mb-2">✨ Personalización disponible</h4>
-                <p className="text-sm text-blue-700">
-                  Puedes agregar nombre y número a este jersey. Consulta opciones con tu vendedor.
+              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                <h4 className="font-semibold text-gray-900 mb-2">💡 Este es un muestrario</h4>
+                <p className="text-sm text-amber-700 mb-3">
+                  Estos son algunos ejemplos de nuestros modelos disponibles. Tenemos acceso a cientos de jerseys adicionales.
                 </p>
+                <Button 
+                  size="sm" 
+                  className="bg-amber-600 hover:bg-amber-700"
+                  onClick={() => handleWhatsAppContact('mazatlan', selectedProduct)}
+                >
+                  Consultar más opciones por WhatsApp
+                </Button>
               </div>
             </div>
           </div>
@@ -339,6 +376,15 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             selectedPath={selectedPath}
           />
         </div>
+
+        {/* Galería de imágenes en pantalla completa */}
+        {showImageGallery && selectedProduct.images && (
+          <ProductImageGallery
+            images={selectedProduct.images}
+            productName={selectedProduct.name}
+            onClose={() => setShowImageGallery(false)}
+          />
+        )}
       </section>
     );
   }
@@ -351,10 +397,19 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
             {getGalleryTitle()}
           </h2>
-          <p className="text-lg text-gray-600">
-            {filteredProducts.length} productos disponibles
+          <p className="text-lg text-gray-600 mb-2">
+            {filteredProducts.length} modelos de muestra disponibles
+          </p>
+          <p className="text-sm text-amber-600 bg-amber-50 inline-block px-4 py-2 rounded-full border border-amber-200">
+            💡 Este es nuestro muestrario - Tenemos cientos de modelos adicionales disponibles
           </p>
         </div>
+
+        {/* Video explicativo para jerseys de fútbol */}
+        <VideoExplainer 
+          sport={selectedSport} 
+          categories={selectedPath}
+        />
 
         {/* Barra de herramientas */}
         <div className="mb-8">
@@ -362,7 +417,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
-                placeholder="Buscar jerseys, equipos..."
+                placeholder="Buscar en el muestrario..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -420,7 +475,11 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                     />
                     <div className="absolute top-3 left-3 flex flex-wrap gap-1">
                       {product.badges.map((badge) => (
-                        <Badge key={badge} className="text-xs bg-white/90 text-gray-800">
+                        <Badge 
+                          key={badge} 
+                          className="text-xs bg-white/90 text-gray-800 cursor-pointer hover:bg-primary hover:text-white transition-colors"
+                          onClick={(e) => handleBadgeClick(badge, e)}
+                        >
                           {badge}
                         </Badge>
                       ))}
@@ -444,22 +503,20 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
               ))}
             </div>
 
-            {/* 🔥 TABLAS - AQUÍ SE MUESTRAN LAS TABLAS DE PRECIOS Y TALLAS */}
-            {/* Las tablas se cargan desde el componente ProductTables */}
-            {/* Para modificar las tablas, ve al archivo: src/components/ProductTables.tsx */}
+            {/* Tablas y CTA solo cuando es nivel final */}
             {isProductFinalLevel && (
               <>
                 <ProductTables 
                   selectedSport={selectedSport}
                   selectedPath={selectedPath}
                 />
-                {/* CTA de contacto - SOLO cuando hay productos Y es nivel final */}
+                {/* CTA de contacto */}
                 <div className="mt-12 text-center bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-xl border">
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    ¿No encuentras lo que buscas?
+                    ¿Buscas algo específico?
                   </h3>
                   <p className="text-gray-600 mb-4">
-                    Tenemos acceso a miles de modelos adicionales. ¡Contáctanos por WhatsApp!
+                    Este muestrario representa solo una pequeña muestra. Tenemos acceso a cientos de modelos adicionales, equipos y ligas de todo el mundo.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button size="lg" className="bg-primary hover:bg-primary/90" onClick={() => handleWhatsAppContact('mazatlan', filteredProducts[0])}>
@@ -479,11 +536,19 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
               <Search className="w-16 h-16 mx-auto" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No se encontraron productos
+              No se encontraron modelos en el muestrario
             </h3>
             <p className="text-gray-600 mb-4">
-              Intenta ajustar tus términos de búsqueda
+              ¡Pero tenemos muchos más modelos disponibles! Contáctanos por WhatsApp para ver opciones adicionales.
             </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
+              <Button 
+                size="lg"
+                onClick={() => handleWhatsAppContact('mazatlan', filteredProducts[0])}
+              >
+                📱 Consultar más modelos
+              </Button>
+            </div>
             <Button 
               variant="outline"
               onClick={() => setSearchTerm('')}
