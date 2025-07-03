@@ -1,11 +1,11 @@
-
 import React, { useState } from 'react';
-import { Search, Grid, List, ExternalLink } from 'lucide-react';
+import { Search, Grid, List, ArrowLeft, Compare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import ProductTables from '@/components/ProductTables';
+import SizeComparator from '@/components/SizeComparator';
 
 interface Product {
   id: string;
@@ -16,6 +16,9 @@ interface Product {
   category: string[];
   image: string;
   badges: string[];
+  images?: string[];
+  description?: string;
+  features?: string[];
 }
 
 // 🔥 PRODUCTOS COMPLETOS - AQUÍ PUEDES AGREGAR MÁS PRODUCTOS
@@ -175,6 +178,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
 }) => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [showComparator, setShowComparator] = useState(false);
 
   // Filtrar productos según el deporte y la ruta seleccionada
   const filteredProducts = allProducts.filter(product => {
@@ -198,7 +203,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
       f1: 'Fórmula 1'
     };
     
-    return `Galería de ${sportNames[selectedSport]} - ${selectedPath.join(' > ')}`;
+    return `Catálogo de ${sportNames[selectedSport]}`;
   };
 
   const isProductFinalLevel = selectedPath.length > 0;
@@ -206,11 +211,161 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   // 🔥 FUNCIÓN PARA ABRIR PRODUCTOS - AQUÍ SE DEFINE CÓMO SE ABREN LOS PRODUCTOS
   // Archivo: src/components/ProductGallery.tsx - Líneas 300-305
   // Para cambiar el comportamiento de apertura de productos, modifica esta función
-  const handleProductClick = (productId: string) => {
-    const productUrl = `/producto/${productId}`;
-    window.open(productUrl, '_blank');
+  const handleProductClick = (product: Product) => {
+    // Expandir imágenes del producto
+    const expandedProduct = {
+      ...product,
+      images: [
+        product.image,
+        'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800',
+        'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800'
+      ],
+      description: `Jersey oficial de ${product.team}. Confeccionado con tecnología de alto rendimiento que absorbe el sudor para mantenerte seco y cómodo durante el juego.`,
+      features: [
+        'Tecnología de control de humedad',
+        'Diseño oficial del equipo',
+        'Corte atlético moderno',
+        'Escudo bordado de alta calidad',
+        'Materiales premium',
+        'Personalización disponible'
+      ]
+    };
+    setSelectedProduct(expandedProduct);
   };
 
+  const handleBackToGallery = () => {
+    setSelectedProduct(null);
+  };
+
+  const handleWhatsAppContact = (city: string, product: Product) => {
+    const message = `Hola, estoy interesado en el ${product.name}, ¿me puedes apoyar?`;
+    const phoneNumber = city === 'mazatlan' ? '526699123456' : '523312345678';
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  // Vista del producto individual
+  if (selectedProduct) {
+    return (
+      <section className="section-padding bg-gray-50 min-h-screen">
+        <div className="max-w-7xl mx-auto">
+          {/* Botón de regreso */}
+          <div className="mb-6">
+            <Button 
+              onClick={handleBackToGallery}
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Volver al catálogo
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
+            {/* Galería de imágenes */}
+            <div className="space-y-4">
+              <div className="aspect-square rounded-xl overflow-hidden shadow-lg">
+                <img 
+                  src={selectedProduct.images?.[0] || selectedProduct.image} 
+                  alt={selectedProduct.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="grid grid-cols-3 gap-4">
+                {selectedProduct.images?.slice(1).map((image: string, index: number) => (
+                  <div key={index} className="aspect-square rounded-lg overflow-hidden shadow-md">
+                    <img 
+                      src={image} 
+                      alt={`${selectedProduct.name} ${index + 2}`}
+                      className="w-full h-full object-cover cursor-pointer hover:opacity-75 transition-opacity"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Información del producto */}
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  {selectedProduct.badges.map((badge: string) => (
+                    <Badge key={badge} className="text-xs bg-white/90 text-gray-800">
+                      {badge}
+                    </Badge>
+                  ))}
+                </div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">{selectedProduct.name}</h1>
+                <p className="text-lg text-gray-600 mb-4">{selectedProduct.team}</p>
+                <p className="text-3xl font-bold text-primary">{selectedProduct.price}</p>
+              </div>
+
+              <div>
+                <p className="text-gray-700 mb-4">{selectedProduct.description}</p>
+                <h3 className="text-lg font-semibold mb-3">Características:</h3>
+                <ul className="space-y-2">
+                  {selectedProduct.features?.map((feature: string, index: number) => (
+                    <li key={index} className="flex items-center text-gray-600">
+                      <span className="w-2 h-2 bg-primary rounded-full mr-3"></span>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Tallas disponibles */}
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Tallas disponibles</h3>
+                <div className="flex flex-wrap gap-2">
+                  {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map((size: string) => (
+                    <Button key={size} variant="outline" size="sm">
+                      {size}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h4 className="font-semibold text-gray-900 mb-2">✨ Personalización disponible</h4>
+                <p className="text-sm text-blue-700">
+                  Puedes agregar nombre y número a este jersey. Consulta opciones con tu vendedor.
+                </p>
+              </div>
+
+              {/* Botones de contacto */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Contacta a tu vendedor</h3>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button 
+                    size="lg" 
+                    onClick={() => handleWhatsAppContact('mazatlan', selectedProduct)}
+                    className="flex-1"
+                  >
+                    📱 WhatsApp Mazatlán
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    onClick={() => handleWhatsAppContact('guadalajara', selectedProduct)}
+                    className="flex-1"
+                  >
+                    📱 WhatsApp Guadalajara
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tablas de tallas y precios para el producto individual */}
+          <ProductTables 
+            selectedSport={selectedSport}
+            selectedPath={selectedPath}
+          />
+        </div>
+      </section>
+    );
+  }
+
+  // Vista de la galería principal
   return (
     <section className="section-padding bg-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -223,7 +378,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           </p>
         </div>
 
-        {/* Search and view controls */}
+        {/* Barra de herramientas */}
         <div className="mb-8">
           <div className="flex flex-col lg:flex-row gap-4 mb-6">
             <div className="relative flex-1">
@@ -237,6 +392,14 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             </div>
             
             <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setShowComparator(true)}
+                className="flex items-center gap-2"
+              >
+                <Compare className="w-4 h-4" />
+                Comparador
+              </Button>
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'outline'}
                 size="sm"
@@ -255,7 +418,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           </div>
         </div>
 
-        {/* Products grid */}
+        {/* Grid de productos */}
         {filteredProducts.length > 0 ? (
           <>
             <div className={`grid gap-6 mb-12 ${
@@ -266,8 +429,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
               {filteredProducts.map((product) => (
                 <Card 
                   key={product.id} 
-                  className="jersey-card cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105"
-                  onClick={() => handleProductClick(product.id)}
+                  className="jersey-card cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 border-0 shadow-lg"
+                  onClick={() => handleProductClick(product)}
                 >
                   <div className="relative">
                     <img 
@@ -277,25 +440,27 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                         viewMode === 'grid' ? 'h-48' : 'h-32'
                       }`}
                     />
-                    <div className="absolute top-2 left-2 flex flex-wrap gap-1">
+                    <div className="absolute top-3 left-3 flex flex-wrap gap-1">
                       {product.badges.map((badge) => (
-                        <Badge key={badge} className="text-xs">
+                        <Badge key={badge} className="text-xs bg-white/90 text-gray-800">
                           {badge}
                         </Badge>
                       ))}
                     </div>
-                    <div className="absolute top-2 right-2">
-                      <ExternalLink className="w-4 h-4 text-white bg-black/50 rounded p-1" />
-                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   
                   <CardContent className="p-4">
-                    <h3 className="font-semibold text-gray-900 mb-1">
+                    <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1">
                       {product.name}
                     </h3>
-                    <p className="text-sm text-gray-600 mb-2">{product.team}</p>
-                    <p className="text-lg font-bold text-primary">{product.price}</p>
-                    <p className="text-xs text-gray-500 mt-1">Click para ver detalles</p>
+                    <p className="text-sm text-gray-600 mb-2 line-clamp-1">{product.team}</p>
+                    <div className="flex items-center justify-between">
+                      <p className="text-lg font-bold text-primary">{product.price}</p>
+                      <Button size="sm" variant="ghost" className="text-xs text-primary hover:bg-primary/10">
+                        Ver detalles →
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               ))}
@@ -331,8 +496,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           </div>
         )}
 
-        {/* Contact CTA */}
-        <div className="mt-12 text-center bg-blue-50 p-8 rounded-xl">
+        {/* CTA de contacto */}
+        <div className="mt-12 text-center bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-xl border">
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
             ¿No encuentras lo que buscas?
           </h3>
@@ -340,15 +505,21 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             Tenemos acceso a miles de modelos adicionales. ¡Contáctanos por WhatsApp!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg">
-              📱 Mazatlán
+            <Button size="lg" className="bg-primary hover:bg-primary/90">
+              📱 WhatsApp Mazatlán
             </Button>
-            <Button size="lg" variant="outline">
-              📱 Guadalajara
+            <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
+              📱 WhatsApp Guadalajara
             </Button>
           </div>
         </div>
       </div>
+
+      {/* Comparador de medidas */}
+      <SizeComparator 
+        isOpen={showComparator} 
+        onClose={() => setShowComparator(false)} 
+      />
     </section>
   );
 };
