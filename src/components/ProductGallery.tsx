@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Grid, List, ArrowLeft, Compare } from 'lucide-react';
+import { Search, Grid, List, ArrowLeft, GitCompare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -397,7 +397,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 onClick={() => setShowComparator(true)}
                 className="flex items-center gap-2"
               >
-                <Compare className="w-4 h-4" />
+                <GitCompare className="w-4 h-4" />
                 Comparador
               </Button>
               <Button

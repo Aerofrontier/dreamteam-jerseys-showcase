@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { X, Compare } from 'lucide-react';
+import { X, GitCompare } from 'lucide-react';
 
 interface SizeComparatorProps {
   isOpen: boolean;
@@ -152,7 +151,7 @@ const SizeComparator: React.FC<SizeComparatorProps> = ({ isOpen, onClose }) => {
         <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-600 text-white">
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
-              <Compare className="w-6 h-6" />
+              <GitCompare className="w-6 h-6" />
               Comparador de Medidas
             </CardTitle>
             <Button variant="ghost" size="sm" onClick={onClose} className="text-white hover:bg-white/20">
@@ -263,7 +262,7 @@ const SizeComparator: React.FC<SizeComparatorProps> = ({ isOpen, onClose }) => {
 
           {comparisonData.length === 0 && (
             <div className="text-center py-8 text-gray-500">
-              <Compare className="w-12 h-12 mx-auto mb-3 opacity-50" />
+              <GitCompare className="w-12 h-12 mx-auto mb-3 opacity-50" />
               <p>Selecciona productos y tallas para comenzar a comparar medidas</p>
             </div>
           )}
