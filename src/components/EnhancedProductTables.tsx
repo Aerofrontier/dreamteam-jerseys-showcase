@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -61,7 +60,6 @@ const EnhancedProductTables: React.FC<EnhancedProductTablesProps> = ({
     }
   };
 
-  // Datos completos de precios
   const pricingData = {
     'futbol-jugador': {
       name: 'Fútbol - Jersey Versión Jugador',
@@ -262,8 +260,8 @@ const EnhancedProductTables: React.FC<EnhancedProductTablesProps> = ({
               </TableBody>
             </Table>
 
-            {/* Opciones de personalización */}
-            {pricing.customization && (
+            {/* Opciones de personalización - Fixed with type guard */}
+            {'customization' in pricing && pricing.customization && (
               <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
                 <h4 className="font-semibold text-green-800 mb-3">Opciones de Personalización</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
