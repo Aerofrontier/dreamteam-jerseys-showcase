@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -133,7 +132,6 @@ const ProductNavigation: React.FC<ProductNavigationProps> = ({
     if (nextLevel?.children) {
       onPathChange(newPath);
     } else {
-      // Es un producto final
       onPathChange(newPath);
     }
   };
@@ -154,7 +152,6 @@ const ProductNavigation: React.FC<ProductNavigationProps> = ({
         {/* Breadcrumb */}
         <div className="mb-8">
           <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <span>{productStructure[selectedSport]?.name}</span>
             {selectedPath.map((step, index) => {
               let current = productStructure[selectedSport];
               for (let i = 0; i <= index; i++) {
@@ -192,9 +189,6 @@ const ProductNavigation: React.FC<ProductNavigationProps> = ({
           </p>
         </div>
 
-        {/* 🔥 DISEÑO DE TARJETAS DE NAVEGACIÓN */}
-        {/* Archivo: src/components/ProductNavigation.tsx - Líneas 170-200 */}
-        {/* Para cambiar el diseño de las tarjetas, modifica esta sección */}
         <div className={`grid gap-6 ${
           Object.keys(currentLevel.children).length <= 2 
             ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto'
@@ -209,8 +203,6 @@ const ProductNavigation: React.FC<ProductNavigationProps> = ({
               <CardContent className="p-6 text-center">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center">
                   <span className="text-white font-bold text-lg">
-                    {/* 🔥 ÍCONOS DE CATEGORÍAS - AQUÍ PUEDES CAMBIAR LOS ÍCONOS */}
-                    {/* Para cambiar los íconos, modifica esta línea */}
                     {isProductLevel ? '👕' : '📂'}
                   </span>
                 </div>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Search, Grid, List, ArrowLeft, GitCompare } from 'lucide-react';
+import { ArrowLeft, GitCompare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import ProductTables from '@/components/ProductTables';
@@ -178,23 +177,19 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   selectedSport, 
   selectedPath 
 }) => {
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showComparator, setShowComparator] = useState(false);
   const [showImageGallery, setShowImageGallery] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   // Filtrar productos según el deporte y la ruta seleccionada
   const filteredProducts = allProducts.filter(product => {
     const matchesSport = product.sport === selectedSport;
     const matchesPath = selectedPath.every(step => product.category.includes(step));
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.team.toLowerCase().includes(searchTerm.toLowerCase());
     
-    return matchesSport && matchesPath && matchesSearch;
+    return matchesSport && matchesPath;
   });
 
-  // 🔥 NOMBRES DE DEPORTES - Cambio de "Catálogo" a "Muestrario"
   const getGalleryTitle = () => {
     const sportNames: { [key: string]: string } = {
       futbol: 'Fútbol',
@@ -209,11 +204,9 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
 
   const isProductFinalLevel = selectedPath.length > 0;
 
-  // Función para manejar click en etiquetas
   const handleBadgeClick = (badge: string, e: React.MouseEvent) => {
     e.stopPropagation();
     
-    // Mapear badges a rutas de navegación
     const badgeToPath: { [key: string]: string } = {
       'Versión Jugador': 'version-jugador',
       'Versión Aficionado': 'version-aficionado',
@@ -228,19 +221,19 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
 
     const pathSegment = badgeToPath[badge];
     if (pathSegment) {
-      // Aquí se podría implementar navegación automática
       console.log(`Navegando a: ${pathSegment}`);
     }
   };
 
   const handleProductClick = (product: Product) => {
-    // Expandir imágenes del producto
     const expandedProduct = {
       ...product,
       images: [
         product.image,
         'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800',
-        'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800'
+        'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800',
+        'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800',
+        'https://images.unsplash.com/photo-1577223625816-7546f13df25d?w=800'
       ],
       description: `Jersey oficial de ${product.team}. Confeccionado con tecnología de alto rendimiento que absorbe el sudor para mantenerte seco y cómodo durante el juego.`,
       features: [
@@ -267,6 +260,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   };
 
   const handleImageClick = (imageIndex: number) => {
+    setSelectedImageIndex(imageIndex);
     setShowImageGallery(true);
   };
 
@@ -275,7 +269,6 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
     return (
       <section className="section-padding bg-gray-50 min-h-screen">
         <div className="max-w-7xl mx-auto">
-          {/* Botón de regreso */}
           <div className="mb-6">
             <Button 
               onClick={handleBackToGallery}
@@ -288,7 +281,6 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
-            {/* Galería de imágenes mejorada */}
             <div className="space-y-4">
               <div className="aspect-square rounded-xl overflow-hidden shadow-lg cursor-pointer" onClick={() => handleImageClick(0)}>
                 <img 
@@ -297,7 +289,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-4 gap-4">
                 {selectedProduct.images?.slice(1).map((image: string, index: number) => (
                   <div key={index} className="aspect-square rounded-lg overflow-hidden shadow-md cursor-pointer" onClick={() => handleImageClick(index + 1)}>
                     <img 
@@ -310,7 +302,6 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
               </div>
             </div>
 
-            {/* Información del producto */}
             <div className="space-y-6">
               <div>
                 <div className="flex items-center gap-2 mb-3">
@@ -342,7 +333,6 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 </ul>
               </div>
 
-              {/* Tallas disponibles */}
               <div>
                 <h3 className="text-lg font-semibold mb-3">Tallas disponibles</h3>
                 <div className="flex flex-wrap gap-2">
@@ -359,37 +349,45 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 <p className="text-sm text-amber-700 mb-3">
                   Estos son algunos ejemplos de nuestros modelos disponibles. Tenemos acceso a cientos de jerseys adicionales.
                 </p>
-                <Button 
-                  size="sm" 
-                  className="bg-amber-600 hover:bg-amber-700"
-                  onClick={() => handleWhatsAppContact('mazatlan', selectedProduct)}
-                >
-                  Consultar más opciones por WhatsApp
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <Button 
+                    size="sm" 
+                    className="bg-amber-600 hover:bg-amber-700"
+                    onClick={() => handleWhatsAppContact('mazatlan', selectedProduct)}
+                  >
+                    Consultar más opciones por WhatsApp Mazatlán
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    className="border-amber-600 text-amber-700 hover:bg-amber-600 hover:text-white"
+                    onClick={() => handleWhatsAppContact('guadalajara', selectedProduct)}
+                  >
+                    Consultar más opciones por WhatsApp Guadalajara
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Tablas de tallas y precios para el producto individual */}
           <ProductTables 
             selectedSport={selectedSport}
             selectedPath={selectedPath}
           />
         </div>
 
-        {/* Galería de imágenes en pantalla completa */}
         {showImageGallery && selectedProduct.images && (
           <ProductImageGallery
             images={selectedProduct.images}
             productName={selectedProduct.name}
             onClose={() => setShowImageGallery(false)}
+            initialIndex={selectedImageIndex}
           />
         )}
       </section>
     );
   }
 
-  // Vista de la galería principal
   return (
     <section className="section-padding bg-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -405,167 +403,22 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           </p>
         </div>
 
-        {/* Video explicativo para jerseys de fútbol */}
         <VideoExplainer 
           sport={selectedSport} 
           categories={selectedPath}
         />
 
-        {/* Barra de herramientas */}
         <div className="mb-8">
-          <div className="flex flex-col lg:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
-                placeholder="Buscar en el muestrario..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setShowComparator(true)}
-                className="flex items-center gap-2"
-              >
-                <GitCompare className="w-4 h-4" />
-                Comparador
-              </Button>
-              <Button
-                variant={viewMode === 'grid' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setViewMode('grid')}
-              >
-                <Grid className="w-4 h-4" />
-              </Button>
-              <Button
-                variant={viewMode === 'list' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setViewMode('list')}
-              >
-                <List className="w-4 h-4" />
-              </Button>
-            </div>
+          <div className="flex justify-end">
+            <Button
+              variant="outline"
+              onClick={() => setShowComparator(true)}
+              className="flex items-center gap-2"
+            >
+              <GitCompare className="w-4 h-4" />
+              Comparador
+            </Button>
           </div>
         </div>
 
-        {/* Grid de productos */}
-        {filteredProducts.length > 0 ? (
-          <>
-            <div className={`grid gap-6 mb-12 ${
-              viewMode === 'grid' 
-                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
-                : 'grid-cols-1'
-            }`}>
-              {filteredProducts.map((product) => (
-                <Card 
-                  key={product.id} 
-                  className="jersey-card cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-105 border-0 shadow-lg"
-                  onClick={() => handleProductClick(product)}
-                >
-                  <div className="relative">
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className={`w-full object-cover ${
-                        viewMode === 'grid' ? 'h-48' : 'h-32'
-                      }`}
-                    />
-                    <div className="absolute top-3 left-3 flex flex-wrap gap-1">
-                      {product.badges.map((badge) => (
-                        <Badge 
-                          key={badge} 
-                          className="text-xs bg-white/90 text-gray-800 cursor-pointer hover:bg-primary hover:text-white transition-colors"
-                          onClick={(e) => handleBadgeClick(badge, e)}
-                        >
-                          {badge}
-                        </Badge>
-                      ))}
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                  
-                  <CardContent className="p-4">
-                    <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1">
-                      {product.name}
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-2 line-clamp-1">{product.team}</p>
-                    <div className="flex items-center justify-between">
-                      <p className="text-lg font-bold text-primary">{product.price}</p>
-                      <Button size="sm" variant="ghost" className="text-xs text-primary hover:bg-primary/10">
-                        Ver detalles →
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-
-            {/* Tablas y CTA solo cuando es nivel final */}
-            {isProductFinalLevel && (
-              <>
-                <ProductTables 
-                  selectedSport={selectedSport}
-                  selectedPath={selectedPath}
-                />
-                {/* CTA de contacto */}
-                <div className="mt-12 text-center bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-xl border">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    ¿Buscas algo específico?
-                  </h3>
-                  <p className="text-gray-600 mb-4">
-                    Este muestrario representa solo una pequeña muestra. Tenemos acceso a cientos de modelos adicionales, equipos y ligas de todo el mundo.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button size="lg" className="bg-primary hover:bg-primary/90" onClick={() => handleWhatsAppContact('mazatlan', filteredProducts[0])}>
-                      📱 WhatsApp Mazatlán
-                    </Button>
-                    <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white" onClick={() => handleWhatsAppContact('guadalajara', filteredProducts[0])}>
-                      📱 WhatsApp Guadalajara
-                    </Button>
-                  </div>
-                </div>
-              </>
-            )}
-          </>
-        ) : (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <Search className="w-16 h-16 mx-auto" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No se encontraron modelos en el muestrario
-            </h3>
-            <p className="text-gray-600 mb-4">
-              ¡Pero tenemos muchos más modelos disponibles! Contáctanos por WhatsApp para ver opciones adicionales.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
-              <Button 
-                size="lg"
-                onClick={() => handleWhatsAppContact('mazatlan', filteredProducts[0])}
-              >
-                📱 Consultar más modelos
-              </Button>
-            </div>
-            <Button 
-              variant="outline"
-              onClick={() => setSearchTerm('')}
-            >
-              Limpiar búsqueda
-            </Button>
-          </div>
-        )}
-      </div>
-
-      {/* Comparador de medidas */}
-      <SizeComparator 
-        isOpen={showComparator} 
-        onClose={() => setShowComparator(false)} 
-      />
-    </section>
-  );
-};
-
-export default ProductGallery;
+        {filteredProducts

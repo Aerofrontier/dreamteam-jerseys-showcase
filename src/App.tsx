@@ -11,6 +11,9 @@ import Basketball from "./pages/Basketball";
 import Baseball from "./pages/Baseball";
 import NFL from "./pages/NFL";
 import Formula1 from "./pages/Formula1";
+import PricingPage from "./pages/PricingPage";
+import SizingPage from "./pages/SizingPage";
+import ShowcasePage from "./pages/ShowcasePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,8 +31,10 @@ const App = () => (
           <Route path="/nba" element={<Basketball />} />
           <Route path="/mlb" element={<Baseball />} />
           <Route path="/f1" element={<Formula1 />} />
+          <Route path="/precios" element={<PricingPage />} />
+          <Route path="/tallas" element={<SizingPage />} />
+          <Route path="/muestrario" element={<ShowcasePage />} />
           <Route path="/producto/:id" element={<ProductDetail />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

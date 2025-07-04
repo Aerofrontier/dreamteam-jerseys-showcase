@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Instagram, 
   Facebook, 
@@ -12,6 +13,7 @@ import {
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
 
   const socialLinks = [
     { name: 'Instagram', icon: Instagram, url: '#' },
@@ -20,18 +22,28 @@ const Footer = () => {
   ];
 
   const quickLinks = [
-    { name: 'Deportes', href: '#deportes' },
-    { name: 'Destacados', href: '#destacados' },
-    { name: 'Catálogo', href: '#catalogo' },
-    { name: 'Precios', href: '#precios' },
-    { name: 'Tallas', href: '#tallas' },
-    { name: 'FAQ', href: '#faq' }
+    { name: 'Deportes', action: () => scrollToSection('deportes') },
+    { name: 'Destacados', action: () => scrollToSection('destacados') },
+    { name: 'Muestrario', action: () => navigate('/muestrario') },
+    { name: 'Precios', action: () => navigate('/precios') },
+    { name: 'Tallas', action: () => navigate('/tallas') },
+    { name: 'FAQ', action: () => scrollToSection('faq') }
   ];
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId.replace('#', ''));
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (window.location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -79,7 +91,7 @@ const Footer = () => {
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <button
-                    onClick={() => scrollToSection(link.href)}
+                    onClick={link.action}
                     className="text-gray-400 hover:text-primary transition-colors text-sm"
                   >
                     {link.name}
