@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ArrowLeft, GitCompare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import SizeComparator from '@/components/SizeComparator';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import VersionComparison from '@/components/VersionComparison';
 import EnhancedProductTables from '@/components/EnhancedProductTables';
+import NavigationBreadcrumb from '@/components/NavigationBreadcrumb';
 
 interface Product {
   id: string;
@@ -151,6 +151,12 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   if (selectedProduct) {
     return (
       <section className="section-padding bg-gray-50 min-h-screen">
+        <NavigationBreadcrumb 
+          sport={selectedSport} 
+          selectedPath={selectedPath} 
+          onPathChange={() => {}} 
+        />
+        
         <div className="max-w-7xl mx-auto">
           <div className="mb-6">
             <Button 
@@ -290,7 +296,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             selectedPath={selectedPath}
           />
 
-          {/* Sección de contacto mejorada */}
+          {/* Enhanced contact section */}
           <div className="mt-16 bg-gradient-to-r from-indigo-50 via-blue-50 to-cyan-50 p-8 rounded-xl border shadow-lg">
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
@@ -345,6 +351,12 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   // Vista de la galería principal
   return (
     <section className="section-padding bg-gray-50">
+      <NavigationBreadcrumb 
+        sport={selectedSport} 
+        selectedPath={selectedPath} 
+        onPathChange={() => {}} 
+      />
+      
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
@@ -414,7 +426,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                     <p className="text-sm text-gray-600 mb-2 line-clamp-1">{product.team}</p>
                     <div className="flex items-center justify-between">
                       <p className="text-lg font-bold text-primary">{product.price}</p>
-                      <Button size="sm" variant="ghost" class Name="text-xs text-primary hover:bg-primary/10">
+                      <Button size="sm" variant="ghost" className="text-xs text-primary hover:bg-primary/10">
                         Ver detalles →
                       </Button>
                     </div>
