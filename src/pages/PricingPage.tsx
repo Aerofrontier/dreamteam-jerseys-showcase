@@ -129,7 +129,7 @@ const PricingPage = () => {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="font-bold">Cantidad</TableHead>
-                        {category.prices[0].mangaCorta ? (
+                        {'mangaCorta' in category.prices[0] ? (
                           <>
                             <TableHead className="font-bold">Manga Corta</TableHead>
                             <TableHead className="font-bold">Manga Larga</TableHead>
@@ -146,7 +146,7 @@ const PricingPage = () => {
                       {category.prices.map((price, priceIndex) => (
                         <TableRow key={priceIndex}>
                           <TableCell className="font-medium">{price.quantity}</TableCell>
-                          {price.mangaCorta ? (
+                          {'mangaCorta' in price ? (
                             <>
                               <TableCell className="text-primary font-semibold">{price.mangaCorta}</TableCell>
                               <TableCell className="text-primary font-semibold">{price.mangaLarga}</TableCell>

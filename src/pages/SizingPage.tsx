@@ -150,7 +150,7 @@ const SizingPage = () => {
                           <TableRow key={sizeIndex} className="hover:bg-gray-50">
                             <TableCell className="font-bold text-primary">{size.size}</TableCell>
                             {Object.entries(size).filter(([key]) => key !== 'size').map(([key, value]) => (
-                              <TableCell key={key}>{value}</TableCell>
+                              <TableCell key={key}>{String(value)}</TableCell>
                             ))}
                           </TableRow>
                         ))}
