@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -20,6 +20,20 @@ const Football = () => {
     navigate('/');
   };
 
+  // Scroll to top when component mounts or path changes to show categories
+  useEffect(() => {
+    if (selectedPath.length === 0) {
+      // Scroll to the categories section when deporte is selected
+      const timer = setTimeout(() => {
+        const element = document.getElementById('categories-section');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedPath]);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -38,11 +52,13 @@ const Football = () => {
         </div>
       </div>
 
-      <ProductNavigation
-        selectedSport="futbol"
-        selectedPath={selectedPath}
-        onPathChange={handlePathChange}
-      />
+      <div id="categories-section">
+        <ProductNavigation
+          selectedSport="futbol"
+          selectedPath={selectedPath}
+          onPathChange={handlePathChange}
+        />
+      </div>
       
       <ProductGallery
         selectedSport="futbol"

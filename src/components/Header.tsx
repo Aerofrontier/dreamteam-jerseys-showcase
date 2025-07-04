@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Menu, X, ShoppingBag } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Header = () => {
@@ -50,9 +50,11 @@ const Header = () => {
             className="flex items-center space-x-3 cursor-pointer" 
             onClick={() => navigate('/')}
           >
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <ShoppingBag className="w-6 h-6 text-white" />
-            </div>
+            <img 
+              src="/lovable-uploads/375754e5-62f5-4c61-8fda-f2e924b69934.png" 
+              alt="DreamTeam Logo" 
+              className="w-10 h-10"
+            />
             <div>
               <h1 className="text-xl font-bold text-gray-900">DreamTeam</h1>
               <p className="text-xs text-gray-600">Sport Jerseys</p>
