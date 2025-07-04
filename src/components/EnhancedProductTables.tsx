@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -37,6 +38,16 @@ const EnhancedProductTables: React.FC<EnhancedProductTablesProps> = ({
         { size: '2XL', largo: '79', busto: '54', hombros: '47.5', manga: '25.5', altura: '180-185' }
       ]
     },
+    'futbol-aficionado': {
+      name: 'Fútbol - Hombre - Versión Aficionado',
+      sizes: [
+        { size: 'S', largo: '69', busto: '44', hombros: '40', manga: '22.5', altura: '160-165' },
+        { size: 'M', largo: '71', busto: '46', hombros: '41.5', manga: '23', altura: '165-170' },
+        { size: 'L', largo: '73', busto: '48', hombros: '43', manga: '23.5', altura: '170-175' },
+        { size: 'XL', largo: '75', busto: '50', hombros: '44.5', manga: '24', altura: '175-180' },
+        { size: '2XL', largo: '77', busto: '52', hombros: '46', manga: '24.5', altura: '180-185' }
+      ]
+    },
     'nba': {
       name: 'NBA - Hombre - Bordada',
       sizes: [
@@ -56,6 +67,17 @@ const EnhancedProductTables: React.FC<EnhancedProductTablesProps> = ({
         { size: 'XL', busto: '62', largoPrenda: '86' },
         { size: '2XL', busto: '64', largoPrenda: '88' },
         { size: '3XL', busto: '66', largoPrenda: '90' }
+      ]
+    },
+    'mlb': {
+      name: 'MLB - Versión de Campo',
+      sizes: [
+        { size: 'S', busto: '54', largoPrenda: '78' },
+        { size: 'M', busto: '56', largoPrenda: '80' },
+        { size: 'L', busto: '58', largoPrenda: '82' },
+        { size: 'XL', busto: '60', largoPrenda: '84' },
+        { size: '2XL', busto: '62', largoPrenda: '86' },
+        { size: '3XL', busto: '64', largoPrenda: '88' }
       ]
     }
   };
@@ -107,8 +129,17 @@ const EnhancedProductTables: React.FC<EnhancedProductTablesProps> = ({
         { quantity: '6+ piezas (cada una)', desde: 575, hasta: 675 }
       ]
     },
-    'nfl-mlb': {
-      name: 'NFL/MLB - Jersey',
+    'nfl': {
+      name: 'NFL - Jersey',
+      prices: [
+        { quantity: '1 pieza', desde: 750, hasta: 800 },
+        { quantity: '2 piezas (cada una)', desde: 725, hasta: 775 },
+        { quantity: '3-5 piezas (cada una)', desde: 700, hasta: 750 },
+        { quantity: '6+ piezas (cada una)', desde: 675, hasta: 725 }
+      ]
+    },
+    'mlb': {
+      name: 'MLB - Jersey',
       prices: [
         { quantity: '1 pieza', desde: 750, hasta: 800 },
         { quantity: '2 piezas (cada una)', desde: 725, hasta: 775 },
@@ -131,10 +162,9 @@ const EnhancedProductTables: React.FC<EnhancedProductTablesProps> = ({
         sizingKey = 'futbol-jugador';
         pricingKey = 'futbol-jugador';
       } else if (hasVersionAficionado) {
+        sizingKey = 'futbol-aficionado';
         pricingKey = 'futbol-aficionado';
       }
-    } else if (sport === 'mlb') {
-      pricingKey = 'nfl-mlb';
     }
     
     return {

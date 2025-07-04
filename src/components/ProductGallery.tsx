@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ArrowLeft, GitCompare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -170,22 +171,38 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
             <div className="space-y-4">
               <div 
-                className="aspect-square rounded-xl overflow-hidden shadow-lg cursor-pointer touch-manipulation" 
+                className="aspect-square rounded-xl overflow-hidden shadow-lg cursor-pointer" 
                 onClick={() => handleImageClick(0)}
-                style={{ touchAction: 'pinch-zoom' }}
+                style={{ 
+                  touchAction: 'pinch-zoom',
+                  WebkitUserSelect: 'none',
+                  MozUserSelect: 'none',
+                  msUserSelect: 'none',
+                  userSelect: 'none'
+                }}
               >
                 <img 
                   src={selectedProduct.images?.[0] || selectedProduct.image} 
                   alt={selectedProduct.name}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  style={{ touchAction: 'pinch-zoom' }}
+                  style={{ 
+                    touchAction: 'pinch-zoom',
+                    WebkitUserSelect: 'none',
+                    MozUserSelect: 'none',
+                    msUserSelect: 'none',
+                    userSelect: 'none'
+                  }}
+                  onTouchStart={(e) => {
+                    // Enable pinch zoom on mobile
+                    e.currentTarget.style.touchAction = 'pinch-zoom';
+                  }}
                 />
               </div>
               <div className="grid grid-cols-4 gap-4">
                 {selectedProduct.images?.slice(1).map((image: string, index: number) => (
                   <div 
                     key={index} 
-                    className="aspect-square rounded-lg overflow-hidden shadow-md cursor-pointer touch-manipulation" 
+                    className="aspect-square rounded-lg overflow-hidden shadow-md cursor-pointer" 
                     onClick={() => handleImageClick(index + 1)}
                     style={{ touchAction: 'pinch-zoom' }}
                   >
@@ -253,7 +270,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                     className="bg-amber-600 hover:bg-amber-700"
                     onClick={() => handleWhatsAppContact('mazatlan', selectedProduct)}
                   >
-                    📱 Consultar más opciones MZT
+                    📱 MZT
                   </Button>
                   <Button 
                     size="sm" 
@@ -261,7 +278,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                     className="border-amber-600 text-amber-700 hover:bg-amber-600 hover:text-white"
                     onClick={() => handleWhatsAppContact('guadalajara', selectedProduct)}
                   >
-                    📱 Consultar más opciones GDL
+                    📱 GDL
                   </Button>
                 </div>
               </div>
@@ -272,6 +289,45 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             selectedSport={selectedSport}
             selectedPath={selectedPath}
           />
+
+          {/* Sección de contacto mejorada */}
+          <div className="mt-16 bg-gradient-to-r from-indigo-50 via-blue-50 to-cyan-50 p-8 rounded-xl border shadow-lg">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                ¿Buscas algo específico?
+              </h3>
+              <p className="text-lg text-gray-700 mb-2">
+                Cotiza tu producto • Consulta disponibilidad • Pregunta por otros equipos
+              </p>
+              <p className="text-sm text-gray-600">
+                Tenemos acceso a cientos de modelos adicionales de equipos y ligas de todo el mundo
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+              <div className="bg-white p-6 rounded-lg shadow-md text-center">
+                <h4 className="font-semibold text-gray-900 mb-2">📍 Mazatlán</h4>
+                <p className="text-sm text-gray-600 mb-4">Consulta disponibilidad y precios</p>
+                <Button 
+                  className="w-full bg-green-600 hover:bg-green-700"
+                  onClick={() => handleWhatsAppContact('mazatlan', selectedProduct)}
+                >
+                  💬 WhatsApp MZT
+                </Button>
+              </div>
+              
+              <div className="bg-white p-6 rounded-lg shadow-md text-center">
+                <h4 className="font-semibold text-gray-900 mb-2">📍 Guadalajara</h4>
+                <p className="text-sm text-gray-600 mb-4">Consulta disponibilidad y precios</p>
+                <Button 
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  onClick={() => handleWhatsAppContact('guadalajara', selectedProduct)}
+                >
+                  💬 WhatsApp GDL
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {showImageGallery && selectedProduct.images && (
@@ -358,7 +414,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                     <p className="text-sm text-gray-600 mb-2 line-clamp-1">{product.team}</p>
                     <div className="flex items-center justify-between">
                       <p className="text-lg font-bold text-primary">{product.price}</p>
-                      <Button size="sm" variant="ghost" className="text-xs text-primary hover:bg-primary/10">
+                      <Button size="sm" variant="ghost" class Name="text-xs text-primary hover:bg-primary/10">
                         Ver detalles →
                       </Button>
                     </div>

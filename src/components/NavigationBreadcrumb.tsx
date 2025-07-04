@@ -67,21 +67,21 @@ const NavigationBreadcrumb: React.FC<NavigationBreadcrumbProps> = ({
   if (breadcrumbItems.length <= 1) return null;
 
   return (
-    <div className="bg-white border-b border-gray-200 py-3 px-4 sm:px-6 lg:px-8">
+    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 py-4 px-4 sm:px-6 lg:px-8 sticky top-16 z-30">
       <div className="max-w-7xl mx-auto">
         <nav className="flex items-center space-x-2 text-sm">
-          <Home className="w-4 h-4 text-gray-400" />
+          <Home className="w-4 h-4 text-gray-500" />
           {breadcrumbItems.map((item, index) => (
             <React.Fragment key={index}>
               {index > 0 && <ChevronRight className="w-4 h-4 text-gray-400" />}
               <Button
-                variant="ghost"
+                variant={index === breadcrumbItems.length - 1 ? "default" : "ghost"}
                 size="sm"
                 onClick={item.onClick}
-                className={`px-2 py-1 h-auto text-sm ${
+                className={`px-3 py-2 h-auto text-sm transition-all duration-200 ${
                   index === breadcrumbItems.length - 1
-                    ? 'text-primary font-medium'
-                    : 'text-gray-600 hover:text-primary'
+                    ? 'bg-primary text-white shadow-md'
+                    : 'text-gray-700 hover:text-primary hover:bg-white/50'
                 }`}
               >
                 {item.name}
@@ -89,6 +89,9 @@ const NavigationBreadcrumb: React.FC<NavigationBreadcrumbProps> = ({
             </React.Fragment>
           ))}
         </nav>
+        <div className="mt-2 text-xs text-gray-600">
+          📍 Navega fácilmente entre categorías haciendo clic en cualquier nivel
+        </div>
       </div>
     </div>
   );
