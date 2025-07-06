@@ -98,8 +98,35 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   const getCurrentProducts = () => {
     let currentProducts = Object.values(productData).filter(product => product.sport === selectedSport);
     
+    // Si no hay path seleccionado, mostrar todos los productos del deporte
+    if (selectedPath.length === 0) {
+      return currentProducts;
+    }
+    
+    // Filtrar por categorías seleccionadas - verificar que el producto tenga TODAS las categorías del path
     for (const category of selectedPath) {
-      currentProducts = currentProducts.filter(product => product.category.includes(category));
+      const categoryMap: { [key: string]: string[] } = {
+        'hombre': ['Hombre'],
+        'mujeres': ['Mujeres'], 
+        'ninos': ['Niños'],
+        'nueva-temporada': ['Nueva Temporada'],
+        'jerseys-retro': ['Jerseys Retro'],
+        'version-jugador': ['Versión Jugador'],
+        'version-aficionado': ['Versión Aficionado'],
+        'selecciones': ['Selecciones'],
+        'equipos': ['Equipos'],
+        'kits-completos': ['Kits Completos'],
+        'tipo-polo': ['Tipo Polo'],
+        'tipo-playera': ['Tipo Playera'],
+        'manga-larga': ['Manga Larga'],
+        'hoodies': ['Hoodies'],
+        'version-campo': ['Versión de Campo']
+      };
+      
+      const mappedCategories = categoryMap[category] || [category];
+      currentProducts = currentProducts.filter(product => 
+        mappedCategories.some(cat => product.category.includes(cat))
+      );
     }
     
     return currentProducts;
@@ -302,10 +329,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             Galería de Productos - {selectedSport.charAt(0).toUpperCase() + selectedSport.slice(1)}
           </h2>
           <p className="text-lg text-gray-600">
-            {selectedPath.length > 0 
-              ? `Categoría: ${selectedPath.join(' > ')}`
-              : 'Explora todos nuestros productos disponibles'
-            }
+            Explora todos nuestros productos disponibles
           </p>
         </div>
 
