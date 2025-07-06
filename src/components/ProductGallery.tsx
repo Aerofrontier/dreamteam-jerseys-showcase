@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import VersionComparison from '@/components/VersionComparison';
-import EnhancedProductTables from '@/components/EnhancedProductTables';
+import PricingTables from '@/components/PricingTables';
+import SizingTables from '@/components/SizingTables';
 import NavigationBreadcrumb from '@/components/NavigationBreadcrumb';
 
 interface Product {
@@ -271,7 +272,12 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             </div>
           </div>
 
-          <EnhancedProductTables 
+          <PricingTables 
+            selectedSport={selectedSport}
+            selectedPath={selectedPath}
+          />
+          
+          <SizingTables 
             selectedSport={selectedSport}
             selectedPath={selectedPath}
           />
@@ -398,14 +404,21 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                         };
                         const categoryPath = badgeToPathMap[badge];
                         if (categoryPath) {
-                          // Para fútbol, necesitamos el path completo: hombre > nueva-temporada > version-jugador
-                          if (selectedSport === 'futbol' && (badge === 'Nueva Temporada' || badge === 'Versión Jugador')) {
+                          // Para fútbol, construir el path correcto según la etiqueta
+                          if (selectedSport === 'futbol') {
                             if (badge === 'Nueva Temporada') {
                               onPathChange(['hombre', 'nueva-temporada']);
                             } else if (badge === 'Versión Jugador') {
                               onPathChange(['hombre', 'nueva-temporada', 'version-jugador']);
+                            } else if (badge === 'Versión Aficionado') {
+                              onPathChange(['hombre', 'nueva-temporada', 'version-aficionado']);
+                            } else if (badge === 'Jerseys Retro') {
+                              onPathChange(['hombre', 'jerseys-retro']);
+                            } else if (badge === 'Kits Completos') {
+                              onPathChange(['ninos', 'kits-completos']);
                             }
                           } else {
+                            // Para otros deportes, usar path directo
                             onPathChange([categoryPath]);
                           }
                         }
@@ -445,10 +458,15 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           ))}
         </div>
 
-        <EnhancedProductTables 
-          selectedSport={selectedSport}
-          selectedPath={selectedPath}
-        />
+      <PricingTables 
+        selectedSport={selectedSport}
+        selectedPath={selectedPath}
+      />
+      
+      <SizingTables 
+        selectedSport={selectedSport}
+        selectedPath={selectedPath}
+      />
       </div>
     </section>
   );
