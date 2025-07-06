@@ -2,6 +2,7 @@
 import React from 'react';
 import { ChevronRight, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface BreadcrumbItem {
   name: string;
@@ -20,6 +21,7 @@ const NavigationBreadcrumb: React.FC<NavigationBreadcrumbProps> = ({
   selectedPath,
   onPathChange
 }) => {
+  const navigate = useNavigate();
   const sportNames: { [key: string]: string } = {
     futbol: 'Fútbol',
     nfl: 'NFL',
@@ -70,7 +72,14 @@ const NavigationBreadcrumb: React.FC<NavigationBreadcrumbProps> = ({
     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 py-4 px-4 sm:px-6 lg:px-8 sticky top-16 z-30">
       <div className="max-w-7xl mx-auto">
         <nav className="flex items-center space-x-2 text-sm">
-          <Home className="w-4 h-4 text-gray-500" />
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/')}
+            className="p-2 h-auto hover:bg-white/50 text-gray-500 hover:text-primary"
+          >
+            <Home className="w-4 h-4" />
+          </Button>
           {breadcrumbItems.map((item, index) => (
             <React.Fragment key={index}>
               {index > 0 && <ChevronRight className="w-4 h-4 text-gray-400" />}

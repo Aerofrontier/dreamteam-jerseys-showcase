@@ -379,7 +379,38 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all"></div>
                 <div className="absolute top-3 left-3 flex flex-wrap gap-1">
                   {product.badges.map((badge) => (
-                    <Badge key={badge} className="text-xs bg-white/90 text-gray-900">
+                    <Badge 
+                      key={badge} 
+                      className="text-xs bg-white/90 text-gray-900 cursor-pointer hover:bg-white transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const badgeToPathMap: { [key: string]: string } = {
+                          'Nueva Temporada': 'nueva-temporada',
+                          'Versión Jugador': 'version-jugador',
+                          'Versión Aficionado': 'version-aficionado',
+                          'Jerseys Retro': 'jerseys-retro',
+                          'Versión de Campo': 'version-campo',
+                          'Tipo Polo': 'tipo-polo',
+                          'Tipo Playera': 'tipo-playera',
+                          'Manga Larga': 'manga-larga',
+                          'Hoodies': 'hoodies',
+                          'Kits Completos': 'kits-completos'
+                        };
+                        const categoryPath = badgeToPathMap[badge];
+                        if (categoryPath) {
+                          // Para fútbol, necesitamos el path completo: hombre > nueva-temporada > version-jugador
+                          if (selectedSport === 'futbol' && (badge === 'Nueva Temporada' || badge === 'Versión Jugador')) {
+                            if (badge === 'Nueva Temporada') {
+                              onPathChange(['hombre', 'nueva-temporada']);
+                            } else if (badge === 'Versión Jugador') {
+                              onPathChange(['hombre', 'nueva-temporada', 'version-jugador']);
+                            }
+                          } else {
+                            onPathChange([categoryPath]);
+                          }
+                        }
+                      }}
+                    >
                       {badge}
                     </Badge>
                   ))}

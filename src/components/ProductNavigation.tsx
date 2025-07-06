@@ -195,9 +195,11 @@ const ProductNavigation: React.FC<ProductNavigationProps> = ({
             </p>
           </div>
 
-          <div className={`grid gap-6 ${
+          <div className={`grid gap-6 justify-center ${
             Object.keys(currentLevel.children).length <= 2 
               ? 'grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto'
+              : Object.keys(currentLevel.children).length <= 3
+              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl mx-auto'
               : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
           }`}>
             {Object.entries(currentLevel.children).map(([key, item]) => (
