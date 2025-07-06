@@ -63,6 +63,7 @@ const NFL = () => {
       <ProductGallery
         selectedSport="nfl"
         selectedPath={selectedPath}
+        onPathChange={handlePathChange}
       />
       
       <Footer />

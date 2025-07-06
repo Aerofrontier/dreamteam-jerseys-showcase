@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ArrowLeft, GitCompare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from 'react-router-dom';
+import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import ProductImageGallery from '@/components/ProductImageGallery';
 import VersionComparison from '@/components/VersionComparison';
@@ -146,10 +146,28 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
             <div>
-              <ProductImageGallery 
-                images={selectedProduct.images} 
-                productName={selectedProduct.name}
-              />
+              <div className="space-y-4">
+                <div className="aspect-square bg-cover bg-center rounded-lg overflow-hidden">
+                  <img 
+                    src={selectedProduct.images[0]} 
+                    alt={selectedProduct.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                {selectedProduct.images.length > 1 && (
+                  <div className="grid grid-cols-3 gap-2">
+                    {selectedProduct.images.slice(1).map((image, index) => (
+                      <div key={index} className="aspect-square bg-cover bg-center rounded-lg overflow-hidden">
+                        <img 
+                          src={image} 
+                          alt={`${selectedProduct.name} - ${index + 2}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="space-y-6">
@@ -291,16 +309,10 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           </p>
         </div>
 
-        {compareProducts.length > 0 && (
-          <div className="mb-8">
-            <VersionComparison 
-              products={compareProducts}
-              onRemoveProduct={(productId) => {
-                setCompareProducts(prev => prev.filter(p => p.id !== productId));
-              }}
-            />
-          </div>
-        )}
+        <VersionComparison 
+          sport={selectedSport}
+          categories={selectedPath}
+        />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {getCurrentProducts().map((product) => (

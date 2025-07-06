@@ -63,6 +63,7 @@ const Formula1 = () => {
       <ProductGallery
         selectedSport="f1"
         selectedPath={selectedPath}
+        onPathChange={handlePathChange}
       />
       
       <Footer />
