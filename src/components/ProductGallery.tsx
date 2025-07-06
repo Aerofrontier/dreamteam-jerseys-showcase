@@ -94,6 +94,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
 }) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [compareProducts, setCompareProducts] = useState<Product[]>([]);
+  const [showImageGallery, setShowImageGallery] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const getCurrentProducts = () => {
     let currentProducts = Object.values(productData).filter(product => product.sport === selectedSport);
@@ -174,7 +176,14 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
             <div>
               <div className="space-y-4">
-                <div className="aspect-square bg-cover bg-center rounded-lg overflow-hidden">
+                <div 
+                  className="aspect-square bg-cover bg-center rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                  style={{ touchAction: 'pinch-zoom' }}
+                  onClick={() => {
+                    setSelectedImageIndex(0);
+                    setShowImageGallery(true);
+                  }}
+                >
                   <img 
                     src={selectedProduct.images[0]} 
                     alt={selectedProduct.name}
@@ -184,7 +193,15 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 {selectedProduct.images.length > 1 && (
                   <div className="grid grid-cols-3 gap-2">
                     {selectedProduct.images.slice(1).map((image, index) => (
-                      <div key={index} className="aspect-square bg-cover bg-center rounded-lg overflow-hidden">
+                      <div 
+                        key={index} 
+                        className="aspect-square bg-cover bg-center rounded-lg overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                        style={{ touchAction: 'pinch-zoom' }}
+                        onClick={() => {
+                          setSelectedImageIndex(index + 1);
+                          setShowImageGallery(true);
+                        }}
+                      >
                         <img 
                           src={image} 
                           alt={`${selectedProduct.name} - ${index + 2}`}
@@ -310,6 +327,16 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             </div>
           </div>
         </div>
+
+        {/* Full-screen image gallery */}
+        {showImageGallery && (
+          <ProductImageGallery
+            images={selectedProduct.images}
+            productName={selectedProduct.name}
+            onClose={() => setShowImageGallery(false)}
+            initialIndex={selectedImageIndex}
+          />
+        )}
       </section>
     );
   }
