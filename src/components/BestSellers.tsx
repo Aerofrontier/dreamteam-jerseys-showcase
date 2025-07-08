@@ -82,15 +82,22 @@ const BestSellers = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const handleProductClick = (product: Product) => {
-    const expandedProduct = {
-      ...product,
-      images: [
-        product.image,
-        'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800',
-        'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800'
-      ]
+    // Redirect to product detail page instead of showing inline
+    const productId = getProductIdFromBestSeller(product);
+    if (productId) {
+      window.location.href = `/producto/${productId}`;
+    }
+  };
+
+  const getProductIdFromBestSeller = (product: Product): string | null => {
+    // Map best sellers to their full product detail IDs
+    const productMap: { [key: string]: string } = {
+      'bs1': '1', // Real Madrid -> Product ID 1
+      'bs2': '2', // Barcelona -> Product ID 2
+      'bs3': '91', // LeBron James Lakers -> Product ID 91
+      'bs4': '71' // Patrick Mahomes Chiefs -> Product ID 71
     };
-    setSelectedProduct(expandedProduct);
+    return productMap[product.id] || null;
   };
 
   const handleBackToGallery = () => {
@@ -104,88 +111,6 @@ const BestSellers = () => {
     window.open(whatsappUrl, '_blank');
   };
 
-  // Vista del producto individual
-  if (selectedProduct) {
-    return (
-      <section className="section-padding bg-gray-50 min-h-screen">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-6">
-            <Button 
-              onClick={handleBackToGallery}
-              variant="outline"
-              className="flex items-center gap-2"
-            >
-              ← Volver a los más vendidos
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="space-y-4">
-              <div className="aspect-square rounded-xl overflow-hidden shadow-lg">
-                <img 
-                  src={selectedProduct.image} 
-                  alt={selectedProduct.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  {selectedProduct.badges.map((badge: string) => (
-                    <Badge key={badge} className="text-xs bg-primary/10 text-primary">
-                      {badge}
-                    </Badge>
-                  ))}
-                </div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">{selectedProduct.name}</h1>
-                <p className="text-lg text-gray-600 mb-4">{selectedProduct.team}</p>
-                <p className="text-3xl font-bold text-primary">{selectedProduct.price}</p>
-              </div>
-
-              <div>
-                <p className="text-gray-700 mb-4">{selectedProduct.description}</p>
-                <h3 className="text-lg font-semibold mb-3">Características:</h3>
-                <ul className="space-y-2">
-                  {selectedProduct.features?.map((feature: string, index: number) => (
-                    <li key={index} className="flex items-center text-gray-600">
-                      <span className="w-2 h-2 bg-primary rounded-full mr-3"></span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
-                <h4 className="font-semibold text-gray-900 mb-2">💡 Producto destacado</h4>
-                <p className="text-sm text-amber-700 mb-3">
-                  Este es uno de nuestros modelos más populares. Contáctanos para más información y disponibilidad.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Button 
-                    size="sm" 
-                    className="bg-amber-600 hover:bg-amber-700"
-                    onClick={() => handleWhatsAppContact('mazatlan', selectedProduct)}
-                  >
-                    📱 WhatsApp Mazatlán
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    className="border-amber-600 text-amber-700 hover:bg-amber-600 hover:text-white"
-                    onClick={() => handleWhatsAppContact('guadalajara', selectedProduct)}
-                  >
-                    📱 WhatsApp Guadalajara
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   // Vista de la galería principal
   return (

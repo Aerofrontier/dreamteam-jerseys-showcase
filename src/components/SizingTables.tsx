@@ -9,7 +9,7 @@ interface SizingTablesProps {
 }
 
 const SizingTables: React.FC<SizingTablesProps> = ({ selectedSport, selectedPath }) => {
-  // Datos completos de tallas para todos los deportes - formato con tallas en columnas
+  // Datos completos de tallas para todos los deportes - usando los datos proporcionados
   const sizingData = {
     'futbol-jugador': {
       name: 'Fútbol - Hombre - Versión Jugador',
@@ -52,9 +52,9 @@ const SizingTables: React.FC<SizingTablesProps> = ({ selectedSport, selectedPath
       ]
     },
     'f1': {
-      name: 'Fórmula 1 - Tabla de Tallas para Adultos',
+      name: 'Fórmula 1 - Hombre - Única',
       measurements: [
-        { measurement: 'Largo (cm)', S: '71', M: '73', L: '75', XL: '77', '2XL': '79', '3XL': '81', '4XL': '83', '5XL': '85' },
+        { measurement: 'Largo de camisa (cm)', S: '71', M: '73', L: '75', XL: '77', '2XL': '79', '3XL': '81', '4XL': '83', '5XL': '85' },
         { measurement: 'Busto (cm)', S: '52', M: '54', L: '56', XL: '58', '2XL': '60', '3XL': '62', '4XL': '64', '5XL': '66' },
         { measurement: 'Cintura (cm)', S: '49.5', M: '51.5', L: '53.5', XL: '55.5', '2XL': '57.5', '3XL': '59.5', '4XL': '61.5', '5XL': '63.5' },
         { measurement: 'Cadera (cm)', S: '52', M: '54', L: '56', XL: '58', '2XL': '60', '3XL': '62', '4XL': '64', '5XL': '66' },
@@ -64,19 +64,34 @@ const SizingTables: React.FC<SizingTablesProps> = ({ selectedSport, selectedPath
       ]
     },
     'nba': {
-      name: 'NBA - Jersey Hombre',
+      name: 'NBA - Hombre - Bordada (logos)',
       measurements: [
-        { measurement: 'Ancho de Pecho (cm)', S: '51', M: '53.5', L: '56', XL: '58.5', '2XL': '61' },
-        { measurement: 'Largo de la Prenda (cm)', S: '73', M: '76', L: '79', XL: '82', '2XL': '85' },
+        { measurement: 'Busto (cm)', S: '50', M: '53', L: '56', XL: '58', '2XL': '61' },
+        { measurement: 'Largo Prenda (cm)', S: '76', M: '79', L: '82', XL: '85', '2XL': '88' },
         { measurement: 'Altura Recomendada (cm)', S: '170', M: '175', L: '180', XL: '185', '2XL': '190' },
         { measurement: 'Peso Recomendado (kg)', S: '50-60', M: '60-70', L: '70-80', XL: '80-90', '2XL': '90-100' }
       ]
     },
-    'nfl': {
-      name: 'NFL - Jersey Hombre',
+    'nba-mujeres': {
+      name: 'NBA - Mujeres',
       measurements: [
-        { measurement: 'Ancho de Pecho (cm)', S: '56', M: '58', L: '60', XL: '62', '2XL': '64', '3XL': '66' },
-        { measurement: 'Largo de la Prenda (cm)', S: '80', M: '82', L: '84', XL: '86', '2XL': '88', '3XL': '90' }
+        { measurement: 'Busto (cm)', S: '46', M: '48', L: '50', XL: '52', '2XL': '54' },
+        { measurement: 'Largo Prenda (cm)', S: '70', M: '72', L: '74', XL: '76', '2XL': '78' },
+        { measurement: 'Altura Recomendada (cm)', S: '155-160', M: '160-165', L: '165-170', XL: '170-175', '2XL': '175-180' }
+      ]
+    },
+    'nfl': {
+      name: 'NFL - Niño - Prensada por calor',
+      measurements: [
+        { measurement: 'Busto (1/2 contorno) (cm)', S: '56', M: '58', L: '60', XL: '62', '2XL': '64', '3XL': '66' },
+        { measurement: 'Largo de la prenda (cm)', S: '80', M: '82', L: '84', XL: '86', '2XL': '88', '3XL': '90' }
+      ]
+    },
+    'nfl-mujeres': {
+      name: 'NFL - Mujeres',
+      measurements: [
+        { measurement: 'Busto (cm)', S: '48', M: '50', L: '52', XL: '54', '2XL': '56' },
+        { measurement: 'Largo de la prenda (cm)', S: '72', M: '74', L: '76', XL: '78', '2XL': '80' }
       ]
     },
     'mlb': {
@@ -88,6 +103,21 @@ const SizingTables: React.FC<SizingTablesProps> = ({ selectedSport, selectedPath
         { measurement: 'Largo de Manga (cm)', S: '34', M: '34', L: '36', XL: '36', '2XL': '36', '3XL': '36' },
         { measurement: 'Diámetro de Puño (cm)', S: '18', M: '19', L: '20', XL: '21', '2XL': '21', '3XL': '21' },
         { measurement: 'Estatura Recomendada (cm)', S: '168-173', M: '173-178', L: '178-183', XL: '188-195', '2XL': '195+', '3XL': '195+' }
+      ]
+    },
+    'mlb-mujeres': {
+      name: 'MLB - Mujeres',
+      measurements: [
+        { measurement: 'Busto (cm)', S: '46', M: '48', L: '50', XL: '52', '2XL': '54' },
+        { measurement: 'Largo de la Prenda (cm)', S: '70', M: '72', L: '74', XL: '76', '2XL': '78' }
+      ]
+    },
+    'f1-mujeres': {
+      name: 'Fórmula 1 - Mujeres',
+      measurements: [
+        { measurement: 'Largo de camisa (cm)', S: '68', M: '70', L: '72', XL: '74', '2XL': '76' },
+        { measurement: 'Busto (cm)', S: '46', M: '48', L: '50', XL: '52', '2XL': '54' },
+        { measurement: 'Cintura (cm)', S: '40', M: '42', L: '44', XL: '46', '2XL': '48' }
       ]
     }
   };
@@ -112,6 +142,11 @@ const SizingTables: React.FC<SizingTablesProps> = ({ selectedSport, selectedPath
         sizingKey = 'futbol-aficionado';
       } else {
         sizingKey = 'futbol-jugador'; // Default para fútbol
+      }
+    } else {
+      // Para otros deportes, agregar soporte para mujeres
+      if (hasMujeres) {
+        sizingKey = `${sport}-mujeres`;
       }
     }
     

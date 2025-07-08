@@ -22,6 +22,7 @@ const Footer = () => {
   ];
 
   const quickLinks = [
+    { name: 'Inicio', action: () => navigate('/') },
     { name: 'Deportes', action: () => scrollToSection('deportes') },
     { name: 'Destacados', action: () => scrollToSection('destacados') },
     { name: 'Muestrario', action: () => navigate('/muestrario') },

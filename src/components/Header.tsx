@@ -36,8 +36,8 @@ const Header = () => {
     { name: 'Deportes', action: () => scrollToSection('deportes') },
     { name: 'Destacados', action: () => scrollToSection('destacados') },
     { name: 'Muestrario', action: () => handleNavigation('/muestrario') },
-    { name: 'Precios y Tallas', action: () => handleNavigation('/precios') },
-    { name: 'Guía de Tallas', action: () => handleNavigation('/tallas') },
+    { name: 'Precios', action: () => handleNavigation('/precios') },
+    { name: 'Tallas', action: () => handleNavigation('/tallas') },
     { name: 'FAQ', action: () => scrollToSection('faq') }
   ];
 
